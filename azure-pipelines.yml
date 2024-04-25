@@ -10,6 +10,8 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
+  azureSubscription: 'RTF Dev-Test Subscription'
+  appName: 'ERPnext-docker'
   dockerRegistryServiceConnection: '7078b9e0-1c0f-4aaf-9a24-b0eb1b861ac2'
   imageRepository: 'ddrtffrappedocker'
   containerRegistry: 'rtfcr01.azurecr.io'
@@ -45,3 +47,14 @@ stages:
         dockerComposeFile: 'pwd.yml'
         action: 'Run services'
 
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'RTF Dev-Test Subscription(5176ec96-d357-4572-8291-ed8b4b654045)'
+        appType: 'webAppContainer'
+        WebAppName: 'ERPnext-docker'
+        deployToSlotOrASE: true
+        ResourceGroupName: 'dev-container-reg-01'
+        SlotName: 'production'
+        DockerNamespace: 'rtfcr01.azurecr.io'
+        DockerRepository: 'ddrtffrappedocker:latest'
