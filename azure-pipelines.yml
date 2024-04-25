@@ -37,3 +37,11 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+    - task: DockerCompose@0
+      inputs:
+        containerregistrytype: 'Azure Container Registry'
+        azureSubscription: 'RTF Dev-Test Subscription(5176ec96-d357-4572-8291-ed8b4b654045)'
+        azureContainerRegistry: '{"loginServer":"rtfcr01.azurecr.io", "id" : "/subscriptions/5176ec96-d357-4572-8291-ed8b4b654045/resourceGroups/dev-container-reg-01/providers/Microsoft.ContainerRegistry/registries/rtfcr01"}'
+        dockerComposeFile: 'pwd.yml'
+        action: 'Run services'
+
